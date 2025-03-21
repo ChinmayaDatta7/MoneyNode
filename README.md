@@ -1,2 +1,3 @@
+# MoneyNode
 
-## Build a basic version of PayTM
+A Multi-Bank Payment Solution with Expense Tracking, built as a basic version of PayTM.
