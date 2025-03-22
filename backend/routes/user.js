@@ -14,6 +14,7 @@ const signupBody = Zod.object({
   password: Zod.string().min(8),
 });
 
+//route for signup
 router.post("/signup", async (req, res) => {
   const { success, data } = signupBody.safeParse(req.body);
   if (!success) {
@@ -31,6 +32,7 @@ router.post("/signup", async (req, res) => {
 
   const user = await User.create(data);
 
+  //create account for user with random balance between 1 and 10000
   await Account.create({
     userId: user._id,
     balance: 1 + Math.random() * 10000,
@@ -48,6 +50,7 @@ const loginBody = Zod.object({
   password: Zod.string().min(8),
 });
 
+//route for login
 router.post("/login", async (req, res) => {
   const { success, data } = loginBody.safeParse(req.body);
   if (!success) {
@@ -79,6 +82,7 @@ const updatedBody = Zod.object({
   lastName: Zod.string().min(2).max(50),
 });
 
+//route for updating user information
 router.put("/", authMiddleware, async (req, res) => {
   const { success, data } = updatedBody.safeParse(req.body);
   if (!success) {
@@ -94,6 +98,8 @@ router.put("/", authMiddleware, async (req, res) => {
 
 router.get("/bulk", authMiddleware, async (req, res) => {
   const filter = req.query.filter || "";
+
+  //find users by first name or last name
   const users = await User.find({
     $or: [
       {
